@@ -3,12 +3,13 @@ import * as yup from 'yup';
 import {Field, Form, Formik} from "formik/dist/index";
 import {connect} from "react-redux";
 import {InputField} from "./FormInputFields";
-    import {NodesService} from "../services/NodesService";
 import {UserService} from "../services/UserService";
 class  CreateUserView extends React.Component {
     initialValue = { username: '' ,password:"", passwordConfirmation: ""};
 
     validationSchema =  yup.object().shape({
+        email: yup.string().required("Bitte gib eine E-Mail Adresse  an.").email("Bitte gib eine gültige E-Mail Adresse an."),
+
         username: yup.string().required("Bitte gib ein Nuternamen an.")
             .min(4, "Der Nutzername muss mindestens 4 Zeichen lang sein."),
         password: yup.string().required("Bitte gib ein Passwort an.")
@@ -34,7 +35,8 @@ class  CreateUserView extends React.Component {
         const {token,auth} = this.props;
 
         const payload = {
-            token,
+            invitation_token: token,
+            email:values.email,
             username: values.username,
             password: values.password
         }
@@ -80,6 +82,7 @@ class  CreateUserView extends React.Component {
                     onSubmit={this.onSubmitForm}>
                     {({isSubmitting}) => (
                         <Form>
+                            <Field name="email" component={InputField} type={"email"} placeholder={"E-Mail Addresse"} label={"E-Mail Addresse"}/>
                             <Field name="username" component={InputField} type={"text"} placeholder={"Benutzername"} label={"Benutzername"}/>
                             <Field name="password" component={InputField} type={"password"} placeholder={"Passwort"} label={"Passwort"}/>
                             <Field name="passwordConfirmation" component={InputField} type={"password"} placeholder={"Passwort Wiederhohlung"} label={"Passwort Wiederhohlung"}/>

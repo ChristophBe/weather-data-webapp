@@ -61,7 +61,7 @@ class App extends Component {
                             <div className={"container"}>
                                 <Switch>
                                     <Route path="/users/login" component={LoginComponent}/>
-                                    <Route path="/users/create/:token" render={({match}) => <CreateUserView token={match.params.token}/>}/>
+                                    <Route path="/users/:token" render={({match}) => <CreateUserView token={match.params.token}/>}/>
                                     <Route path="/node/:nodeId/share" render={({match}) => <ShareNodeView nodeId={Number(match.params.nodeId)}/>}/>
                                     <Route path="/node/:nodeId" render={({match}) => <MeasuringComponent nodeId={Number(match.params.nodeId)}/>}/>
                                     <Redirect from={"/"} to={"/node/" + nodes.selectedNode}/>

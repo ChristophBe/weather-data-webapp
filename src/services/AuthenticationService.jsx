@@ -7,6 +7,7 @@ export class AuthenticationService {
 
     static authenticateEmailPassword(authDetails){
         const data = {
+            grant_type:"password",
             email: authDetails.email,
             password: authDetails.password,
         };
@@ -18,6 +19,7 @@ export class AuthenticationService {
 
     static authenticateRefreshToken(token){
         const data = {
+            grant_type:"refresh_token",
             refresh_token: token.refresh_token
         };
         return AuthenticationService.fetchAuthToken(data)
