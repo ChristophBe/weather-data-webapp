@@ -1,11 +1,9 @@
 import * as React from "react";
 import * as yup from 'yup';
 import {Field, Form, Formik} from "formik/dist/index";
-import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {InputField} from "./FormInputFields";
 
-import AuthActions from "../redux/actions/AuthActions"
 import {NodesService} from "../services/NodesService";
 class  ShareNodeView extends React.Component {
     initialValue = { email: '' };

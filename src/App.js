@@ -14,14 +14,10 @@ import CreateUserView from "./components/CreateUserView";
 class App extends Component {
 
     static calcBackgroundColor(currentTemperature) {
-        //let scale = chroma.scale(['#007bff', '#fd7e14']);
         let scale = chroma.scale(['#0400ff', '#00a1ff', '#f9a100', '#f94500']);
-        //let scale = chroma.scale(['#66ccff', '#ffbe6e']);
         let tempOnColorScale = (currentTemperature + 10) / 50;
         tempOnColorScale = tempOnColorScale < 0 ? 0 : tempOnColorScale;
         tempOnColorScale = tempOnColorScale > 1 ? 1 : tempOnColorScale;
-
-
         return scale(tempOnColorScale).hex();
     }
 

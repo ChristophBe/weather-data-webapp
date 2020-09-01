@@ -32,7 +32,7 @@ class  CreateUserView extends React.Component {
     onSubmitForm(values, { setSubmitting, resetForm }){
 
         console.log(values);
-        const {token,auth} = this.props;
+        const {token} = this.props;
 
         const payload = {
             invitation_token: token,

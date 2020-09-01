@@ -1,15 +1,8 @@
 import {call, put, select} from "redux-saga/effects";
-import NodesActions from "../actions/NodesActions";
-import {NodesService} from "../../services/NodesService";
 import MeasurementsActions from "../actions/MeasurementsActions";
-import MeasurementsReducer from "../reducers/MeasurementsReducer";
 import {MeasurementsService} from "../../services/MeasurementsService";
 
-
 const getAuth = (state) => state.auth;
-
-
-
 
 export function* fetchMeasurements(action) {
     try {

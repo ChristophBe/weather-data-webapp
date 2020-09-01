@@ -1,6 +1,5 @@
 import RequestService from "./RequestService";
 import {Config} from "../config";
-import {NODES_RECEIVE} from "../redux/actions/ActionTypes";
 
 
 export class NodesService {
