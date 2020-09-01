@@ -1,17 +1,22 @@
 import moment from "moment";
 
 export default class CookieAuthenticationService{
-    static saveToken(token){
-
-        let tokenParts = token.access_token.split(".");
-
+    static getExpirationTimeOfToken(token){
+        let tokenParts = token.split(".");
         let tokenPayload = JSON.parse(atob(tokenParts[1]));
+        return moment.unix(tokenPayload.exp)
+    }
 
-        let expiringTime = moment(tokenPayload.exp);
-
+    static isTokenExpired(token){
+        return this.getExpirationTimeOfToken(token).isBefore(moment())
+    }
+    static  saveToken(token){
+        let expiringTime = this.getExpirationTimeOfToken(token.refresh_token);
         let maxAge = expiringTime.diff(moment(),"second");
 
-        document.cookie = CookieAuthenticationService.authCookieIdentifier + "=" + btoa(JSON.stringify(token)) + ";max-age=" + maxAge + ";path=/"
+        let cookie = CookieAuthenticationService.authCookieIdentifier + "=" + btoa(JSON.stringify(token)) + ";max-age=" + maxAge + ";path=/;SameSite=Lax"
+        console.log(cookie)
+        document.cookie = cookie
     }
     static logout(){
         console.log("logout")

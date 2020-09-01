@@ -3,7 +3,6 @@ import {call, put} from "redux-saga/effects";
 import AuthActions from "../actions/AuthActions";
 import {UserService} from "../../services/UserService";
 import CookieAuthenticationService from "../../services/CookieAuthenticationService";
-import NodesActions from "../actions/NodesActions";
 
 export function* fetchAuthTokenEffect(action) {
 
@@ -28,9 +27,17 @@ export function* fetchUserEffect(action) {
 
 export function* tryCookieAuthEffect() {
     try {
-        console.log("try Cookie Auth!");
-        const token = yield call(CookieAuthenticationService.restoreToken);
-        yield put(AuthActions.loginSuccessLogin(token));
+        const recoveredToken = yield call(CookieAuthenticationService.restoreToken);
+        console.log(recoveredToken)
+
+        if(CookieAuthenticationService.isTokenExpired(recoveredToken.access_token)){
+            const token =  yield call(AuthenticationService.authenticateRefreshToken,recoveredToken)
+            yield put(AuthActions.loginSuccessLogin(token));
+        }
+        else {
+            yield put(AuthActions.loginSuccessLogin(recoveredToken));
+        }
+
     } catch (e) {
         yield put(AuthActions.cookieAuthFailed())
         console.log(e)
