@@ -9,6 +9,7 @@ import {connect} from "react-redux";
 import NodesActions from "./redux/actions/NodesActions";
 import ShareNodeView from "./components/ShareNodeView";
 import CreateUserView from "./components/CreateUserView";
+import CreateNodeComponent from "./components/CreateNodeComponent";
 
 
 class App extends Component {
@@ -31,6 +32,16 @@ class App extends Component {
         console.log("props", this.props)
         const {nodes, measurements} = this.props;
 
+
+        if (!nodes.isLoading && nodes.length <= 0) {
+            return <div className="App">
+                <div className="main-content">
+                    <div className={"container"}>
+                        <LoginComponent/>
+                    </div>
+                </div>
+            </div>
+        }
         if (nodes.isLoading || nodes.selectedNode == null) {
             return <div className="App">
                 <div className="main-content">
@@ -58,9 +69,10 @@ class App extends Component {
                                 <Switch>
                                     <Route path="/users/login" component={LoginComponent}/>
                                     <Route path="/users/:token" render={({match}) => <CreateUserView token={match.params.token}/>}/>
-                                    <Route path="/node/:nodeId/share" render={({match}) => <ShareNodeView nodeId={Number(match.params.nodeId)}/>}/>
-                                    <Route path="/node/:nodeId" render={({match}) => <MeasuringComponent nodeId={Number(match.params.nodeId)}/>}/>
-                                    <Redirect from={"/"} to={"/node/" + nodes.selectedNode}/>
+                                    <Route path="/nodes/:nodeId/share" render={({match}) => <ShareNodeView nodeId={Number(match.params.nodeId)}/>}/>
+                                    <Route path="/nodes/:nodeId" render={({match}) => <MeasuringComponent nodeId={Number(match.params.nodeId)}/>}/>
+                                    <Route path="/nodes" component={CreateNodeComponent}/>
+                                    <Redirect from={"/"} to={"/nodes/" + nodes.selectedNode}/>
                                 </Switch>
                             </div>
                         </section>
@@ -71,7 +83,7 @@ class App extends Component {
                                         {
                                             Object.keys(nodes.map).map((key, index) => <Link
                                                 className={"btn btn-outline-light"} key={index}
-                                                to={"/node/" + key}>{nodes.map[key].name}</Link>)
+                                                to={"/nodes/" + key}>{nodes.map[key].name}</Link>)
                                         }
                                     </nav>
                                 </div>

@@ -24,7 +24,7 @@ class HeaderNav  extends React.Component{
                 <nav>
                     <ul>
                         <li>
-
+                            <Link to={"/nodes"} className={"btn btn-outline-light"}>Station hinzufügen</Link>
                         </li>
 
                     </ul>
